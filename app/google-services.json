@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "509170579933",
+    "project_id": "chat-aa0e2",
+    "storage_bucket": "chat-aa0e2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509170579933:android:c0f0b19180c151b9355e34",
+        "android_client_info": {
+          "package_name": "com.yousef.sh.chatapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509170579933-o4vc0hlvonbo5cgpcsvkln2549h8ubbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxt0jPMBI1-1sUwUjjouVUvz2JJtnHBPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509170579933-o4vc0hlvonbo5cgpcsvkln2549h8ubbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:509170579933:android:04874ef0f76caad1355e34",
+        "android_client_info": {
+          "package_name": "com.yousef.sh.chatsaplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "509170579933-o4vc0hlvonbo5cgpcsvkln2549h8ubbr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxt0jPMBI1-1sUwUjjouVUvz2JJtnHBPw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "509170579933-o4vc0hlvonbo5cgpcsvkln2549h8ubbr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
