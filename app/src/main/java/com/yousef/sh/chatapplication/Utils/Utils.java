@@ -7,7 +7,11 @@ import android.widget.Toast;
 
 public class Utils {
     Activity activity;
-
+    public String ChatRoot = "chats";
+    public String UsersRoot = "users";
+    public String TimeServerRoot = "ServerTime";
+    public String FriendObject = "friend_Object";
+    public String StoryRoot = "story";
     public Utils(Activity activity) {
         this.activity = activity;
     }
@@ -21,6 +25,9 @@ public class Utils {
         Intent intent = new Intent(activity, aClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         activity.startActivity(intent);
+    }
+
+    public Utils() {
     }
 
     public void PickImage(int reuestCode) {

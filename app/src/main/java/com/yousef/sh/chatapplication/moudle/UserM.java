@@ -1,7 +1,10 @@
 package com.yousef.sh.chatapplication.moudle;
 
 
-public class UserM {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class UserM implements Parcelable {
     String id;
     String name;
     String email;
@@ -21,6 +24,28 @@ public class UserM {
 
     public UserM() {
     }
+
+    protected UserM(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        email = in.readString();
+        phone = in.readString();
+        password = in.readString();
+        imgUri = in.readString();
+        Token = in.readString();
+    }
+
+    public static final Creator<UserM> CREATOR = new Creator<UserM>() {
+        @Override
+        public UserM createFromParcel(Parcel in) {
+            return new UserM(in);
+        }
+
+        @Override
+        public UserM[] newArray(int size) {
+            return new UserM[size];
+        }
+    };
 
     public String getPhone() {
         return phone;
@@ -76,5 +101,21 @@ public class UserM {
 
     public void setToken(String token) {
         Token = token;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(name);
+        parcel.writeString(email);
+        parcel.writeString(phone);
+        parcel.writeString(password);
+        parcel.writeString(imgUri);
+        parcel.writeString(Token);
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/chats">
+
+    <fragment
+        android:id="@+id/chats"
+        android:name="com.yousef.sh.chatapplication.fragment.ChatFragment"
+        android:label="Chats"
+        tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/calls"
+        android:name="com.yousef.sh.chatapplication.fragment.Call_Fragment"
+        android:label="Calls"
+        tools:layout="@layout/fragment_call_" />
+    <fragment
+        android:id="@+id/people"
+        android:name="com.yousef.sh.chatapplication.fragment.PeopleFragment"
+        android:label="People"
+        tools:layout="@layout/fragment_people" />
+    <fragment
+        android:id="@+id/profile"
+        android:name="com.yousef.sh.chatapplication.fragment.ProfileFragment"
+        android:label="profile"
+        tools:layout="@layout/fragment_profile" />
+
+
+</navigation>
