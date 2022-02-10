@@ -37,8 +37,6 @@ public class MainActivity extends AppCompatActivity {
     Utils utils;
     FirebaseAuth auth;
     FirebaseUser user;
-    ArrayList<UserM> list;
-    ListFriendAdpater adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(MainActivity.this, SignInActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(intent);
+
         }
         return super.onOptionsItemSelected(item);
     }

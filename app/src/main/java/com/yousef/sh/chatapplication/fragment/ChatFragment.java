@@ -1,5 +1,6 @@
 package com.yousef.sh.chatapplication.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.yousef.sh.chatapplication.MainActivity;
 import com.yousef.sh.chatapplication.R;
+import com.yousef.sh.chatapplication.SearchActivity;
 import com.yousef.sh.chatapplication.Utils.Utils;
 import com.yousef.sh.chatapplication.adapter.ListFriendAdpater;
 import com.yousef.sh.chatapplication.adapter.StoryAdapter;
@@ -95,6 +97,7 @@ public class ChatFragment extends Fragment {
         storyArrayList = new ArrayList<>();
         GetFriendList();
         GetListStories();
+        OnClick();
         return binding.getRoot();
     }
 
@@ -104,7 +107,7 @@ public class ChatFragment extends Fragment {
     }
 
     void GetFriendList() {
-        FirebaseDatabase.getInstance().getReference("users")
+        FirebaseDatabase.getInstance().getReference(utils.UsersRoot)
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -127,25 +130,32 @@ public class ChatFragment extends Fragment {
 
     void GetListStories() {
 
-                FirebaseDatabase.getInstance().getReference(utils.StoryRoot).child(user.getUid()).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            Story story = snapshot.getValue(Story.class);
-                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                storyArrayList.add(story);
-                            }
-                            storyAdapter = new StoryAdapter(getActivity(), storyArrayList);
-                            LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
-                            binding.recycleStores.setLayoutManager(horizontalLayoutManagaer);
-                            binding.recycleStores.setAdapter(storyAdapter);
-                        }
+        FirebaseDatabase.getInstance().getReference(utils.StoryRoot).child(user.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Story story = snapshot.getValue(Story.class);
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        storyArrayList.add(story);
                     }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        utils.Toast(error.getMessage());
-                    }
-                });
+                    storyAdapter = new StoryAdapter(getActivity(), storyArrayList);
+                    LinearLayoutManager horizontalLayoutManagaer = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
+                    binding.recycleStores.setLayoutManager(horizontalLayoutManagaer);
+                    binding.recycleStores.setAdapter(storyAdapter);
+                }
             }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                utils.Toast(error.getMessage());
+            }
+        });
+    }
+
+    void OnClick() {
+        binding.tvSearch.setOnClickListener(view -> {
+            utils.Intent(SearchActivity.class);
+        });
+    }
+
 }
