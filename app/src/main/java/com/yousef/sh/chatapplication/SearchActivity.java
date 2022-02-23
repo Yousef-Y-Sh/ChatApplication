@@ -37,21 +37,20 @@ public class SearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         bind = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(bind.getRoot());
+        setSupportActionBar(bind.toolbar);
         utils = new Utils(this);
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
         list = new ArrayList<>();
         GetSuggestedList();
         OnClicksMethods();
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
     }
 
 
     void OnClicksMethods() {
-        bind.btnCancle.setOnClickListener(view -> {
-            utils.Intent(MainActivity.class);
-        });
         bind.etSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String Text) {

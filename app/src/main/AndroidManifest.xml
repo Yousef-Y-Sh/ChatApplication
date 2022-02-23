@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.ChatApplication">
-        <activity android:name=".SearchActivity"></activity>
+        <activity android:name=".ChoiceImageStory" />
+        <activity android:name=".SearchActivity"  android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ChatActivity"
             android:exported="true"

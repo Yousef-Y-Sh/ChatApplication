@@ -7,12 +7,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 import com.yousef.sh.chatapplication.R;
 import com.yousef.sh.chatapplication.Utils.Utils;
@@ -50,7 +55,10 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
         Picasso.get().load(user.getImgUri()).into(holder.imgFriend);
         holder.tvName.setText(user.getName());
         holder.acceptBtn.setOnClickListener(view -> {
-            AcceptFriend(position);
+            AcceptFriendRequest(position);
+        });
+        holder.deleteBtn.setOnClickListener(view -> {
+            DeleteFriendRequest(position);
         });
     }
 
@@ -77,17 +85,39 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestAdapter.MyViewHo
         }
     }
 
-    void AcceptFriend(int position) {
+    void AcceptFriendRequest(int position) {
         HashMap<String, Integer> map = new HashMap<>();
         map.put("isFriend", 2);
         database.getReference(utils.FriendRoot)
                 .child(user.getUid())
                 .child(list.get(position).getId())
-                .setValue(map);
+                .setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                database.getReference(utils.FriendRoot)
+                        .child(list.get(position).getId())
+                        .child(user.getUid())
+                        .setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        list.remove(position);
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+
+
+    }
+
+    void DeleteFriendRequest(int position) {
         database.getReference(utils.FriendRoot)
-                .child(list.get(position).getId())
                 .child(user.getUid())
-                .setValue(map);
-        list.remove(position);
+                .child(list.get(position).getId())
+                .removeValue().addOnSuccessListener(unused -> {
+            list.remove(position);
+            notifyDataSetChanged();
+        });
+
     }
 }

@@ -85,6 +85,21 @@ public class ListFriendAdpater extends RecyclerView.Adapter<ListFriendAdpater.My
             tvmsg = itemView.findViewById(R.id.tvmsg);
         }
     }
+    void getLastMsg(int position) {
+        database.getReference(utils.ChatRoot)
+                .child(user.getUid()).child(arrayList.get(position).getId())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull  DataSnapshot snapshot) {
+                        
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+    }
 
 }

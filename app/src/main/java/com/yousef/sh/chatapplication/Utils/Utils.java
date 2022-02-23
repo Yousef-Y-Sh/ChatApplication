@@ -13,6 +13,7 @@ public class Utils {
     public String FriendObject = "friend_Object";
     public String StoryRoot = "story";
     public String FriendRoot = "friends";
+
     public Utils(Activity activity) {
         this.activity = activity;
     }

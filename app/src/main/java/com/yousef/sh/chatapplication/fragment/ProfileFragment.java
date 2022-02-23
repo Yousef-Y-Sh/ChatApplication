@@ -2,13 +2,23 @@ package com.yousef.sh.chatapplication.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 import com.yousef.sh.chatapplication.R;
+import com.yousef.sh.chatapplication.Utils.Utils;
+import com.yousef.sh.chatapplication.databinding.FragmentProfileBinding;
+import com.yousef.sh.chatapplication.moudle.UserM;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,7 +26,8 @@ import com.yousef.sh.chatapplication.R;
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
-
+    FragmentProfileBinding binding;
+    Utils utils;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -61,6 +72,33 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        binding = FragmentProfileBinding.inflate(inflater);
+        utils = new Utils(getActivity());
+        Picasso.get().load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl()).into(binding.imageView5);
+        binding.tvEmail.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        retrunPhone();
+        return binding.getRoot();
+    }
+
+    void retrunPhone() {
+        FirebaseDatabase.getInstance().getReference(utils.UsersRoot)
+                .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                                if (snapshot.getKey().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    UserM userM = snapshot.getValue(UserM.class);
+                                    String phone = userM.getPhone();
+                                    binding.tvPhone.setText(phone);
+                                }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        utils.Toast(error.getMessage());
+                    }
+                });
     }
 }

@@ -95,31 +95,32 @@ public class PeopleFragment extends Fragment {
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                         utils.Toast(error.getMessage());
+
                     }
                 });
-
     }
 
     void LoopStringList() {
         for (String s : list) {
-            database.getReference(utils.UsersRoot).child(s).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        UserM userM = snapshot.getValue(UserM.class);
-                        frienList.add(userM);
-                        Log.e("111111111", userM.getEmail() + "   " + userM.getId());
-                        adapter = new RequestAdapter(frienList, getActivity());
-                        binding.recycle.setLayoutManager(new LinearLayoutManager(getActivity()));
-                        binding.recycle.setAdapter(adapter);
-                    }
-                }
+            database.getReference(utils.UsersRoot)
+                    .child(s)
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                UserM userM = snapshot.getValue(UserM.class);
+                                frienList.add(userM);
+                                adapter = new RequestAdapter(frienList, getActivity());
+                                binding.recycle.setLayoutManager(new LinearLayoutManager(getActivity()));
+                                binding.recycle.setAdapter(adapter);
+                            }
+                        }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            utils.Toast(error.getMessage());
+                        }
+                    });
         }
     }
 

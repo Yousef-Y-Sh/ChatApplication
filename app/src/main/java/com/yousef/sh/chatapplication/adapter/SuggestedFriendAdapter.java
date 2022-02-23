@@ -87,20 +87,21 @@ public class SuggestedFriendAdapter extends RecyclerView.Adapter<SuggestedFriend
         database.getReference(utils.FriendRoot)
                 .child(arrayList.get(position).getId())
                 .child(user.getUid())
-                .setValue(map).addOnSuccessListener(unused -> holder.btnAddFriend.setImageResource(R.drawable.ic_baseline_check_24));
+                .setValue(map).addOnSuccessListener(unused -> holder.btnAddFriend.setImageResource(R.drawable.ic_send));
     }
 
     void GetRequserFriend(int position, MyViewHoder holder) {
         database.getReference(utils.FriendRoot)
                 .child(arrayList.get(position).getId())
                 .child(user.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    public void onDataChange(@NonNull  DataSnapshot snapshot) {
                         if (snapshot.exists()) {
-                            Log.e("111111", snapshot.child("isFriend").getValue() + "");
-                            String s = String.valueOf(snapshot.child("isFriend").getValue());
-                            if (s.equals("1")) {
+                            String stateFriend = String.valueOf(snapshot.child("isFriend").getValue());
+                            if (stateFriend.equals("1")) {
+                                holder.btnAddFriend.setImageResource(R.drawable.ic_send);
+                            } else if (stateFriend.equals("2")) {
                                 holder.btnAddFriend.setImageResource(R.drawable.ic_baseline_check_24);
                             } else {
                                 holder.btnAddFriend.setImageResource(R.drawable.ic_baseline_person_add_24);
@@ -109,7 +110,7 @@ public class SuggestedFriendAdapter extends RecyclerView.Adapter<SuggestedFriend
                     }
 
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                    public void onCancelled(@NonNull  DatabaseError error) {
 
                     }
                 });

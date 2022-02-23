@@ -1,27 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="@dimen/_10sdp"
+    android:layout_margin="@dimen/_4sdp">
 
-    <ImageView
-        android:id="@+id/imgStory"
-        android:layout_width="66dp"
-        android:layout_height="66dp"
-        android:layout_marginHorizontal="@dimen/_4sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_story" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:layout_height="wrap_content"
-        android:text="Your Story"
-        android:textSize="@dimen/_10ssp"
-        app:layout_constraintEnd_toEndOf="@+id/imgStory"
-        app:layout_constraintStart_toStartOf="@+id/imgStory"
-        app:layout_constraintTop_toBottomOf="@+id/imgStory" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/UserImg"
+            android:layout_width="@dimen/_100sdp"
+            android:scaleType="centerCrop"
+            android:layout_height="@dimen/_100sdp"
+            android:background="#000"
+            android:src="@drawable/background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/view3"
+            android:layout_width="0dp"
+            android:background="#B3B3B3"
+            android:layout_height="@dimen/_60sdp"
+            app:layout_constraintEnd_toEndOf="@+id/UserImg"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@+id/UserImg"
+            app:layout_constraintTop_toBottomOf="@+id/UserImg" />
+
+        <ImageView
+            android:id="@+id/imgUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_4sdp"
+            android:layout_marginStart="168dp"
+            app:layout_constraintBottom_toBottomOf="@+id/UserImg"
+            app:layout_constraintEnd_toEndOf="@+id/UserImg"
+            app:layout_constraintStart_toStartOf="@+id/UserImg"
+            app:layout_constraintTop_toBottomOf="@+id/UserImg"
+            app:srcCompat="@drawable/ic_add" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textColor="#000"
+            android:text="Create Story"
+            android:layout_marginBottom="@dimen/_6sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/view3"
+            app:layout_constraintEnd_toEndOf="@+id/view3"
+            app:layout_constraintStart_toStartOf="@+id/view3" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

@@ -1,27 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <de.hdodenhof.circleimageview.CircleImageView
+    android:layout_margin="@dimen/_4sdp"
+    app:cardCornerRadius="@dimen/_10sdp">
 
-        android:id="@+id/friend_img"
-        android:layout_width="66dp"
-        android:layout_height="66dp"
-        android:src="@drawable/ic_story"
-        android:layout_marginHorizontal="@dimen/_4sdp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_story" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/tv_name"
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:layout_height="wrap_content"
-        android:text="Your Story"
-        android:textSize="@dimen/_10ssp"
-        app:layout_constraintEnd_toEndOf="@+id/friend_img"
-        app:layout_constraintStart_toStartOf="@+id/friend_img"
-        app:layout_constraintTop_toBottomOf="@+id/friend_img" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            android:id="@+id/imgStory"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_160sdp"
+            android:background="#000"
+            android:scaleType="centerCrop"
+            android:src="@drawable/background"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgUser"
+            android:layout_width="@dimen/_35sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_margin="@dimen/_6sdp"
+            android:layout_marginHorizontal="@dimen/_4sdp"
+            android:src="@drawable/ic_add"
+            app:layout_constraintEnd_toEndOf="@+id/imgStory"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:gravity="start"
+            android:paddingHorizontal="@dimen/_4sdp"
+            android:text="Create Story"
+            android:textColor="#FFFFFF"
+            app:layout_constraintBottom_toBottomOf="@id/imgStory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/imgStory" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

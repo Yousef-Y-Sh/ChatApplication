@@ -1,17 +1,27 @@
 package com.yousef.sh.chatapplication.moudle;
 
 public class Story {
-    String name;
-    String image;
     String UserId;
+    String image;
+    String name;
+    String userImg;
 
-    public Story(String name, String image, String userId) {
-        this.name = name;
-        this.image = image;
+    public Story(String userId, String image, String name, String userImg) {
         UserId = userId;
+        this.image = image;
+        this.name = name;
+        this.userImg = userImg;
     }
 
     public Story() {
+    }
+
+    public String getUserImg() {
+        return userImg;
+    }
+
+    public void setUserImg(String userImg) {
+        this.userImg = userImg;
     }
 
     public String getName() {

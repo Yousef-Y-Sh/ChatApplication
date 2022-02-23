@@ -31,14 +31,13 @@ public class ChatAdapter extends RecyclerView.Adapter {
     ArrayList<Chat> list;
     int right = 0;
     int left = 1;
-    UserM userM;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     UserM friend;
     Utils utils = new Utils();
 
-    public ChatAdapter(Activity activity, ArrayList<Chat> list ,UserM friend) {
+    public ChatAdapter(Activity activity, ArrayList<Chat> list, UserM friend) {
         this.activity = activity;
         this.list = list;
         this.friend = friend;
@@ -112,22 +111,4 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
         }
     }
-
-    UserM GetImageFriend(int pos) {
-        database.getReference(utils.UsersRoot)
-                .child(list.get(pos).getReciver())
-                .addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        userM = snapshot.getValue(UserM.class);
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-        return userM;
-    }
-
 }
