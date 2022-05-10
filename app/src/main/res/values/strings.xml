@@ -2,4 +2,7 @@
     <string name="app_name">ChatApplication</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="agora_app_id">c2bdfcce7abc4c91b4ff4a90e79ef573</string>
+    <string name="agora_access_token">006c2bdfcce7abc4c91b4ff4a90e79ef573IAAlKwZn5EBjj6BDgTcg4eqT4G+EOJS+YnLGAYdIgSy9Uj37XygAAAAAEAD9FOMn1ml7YgEAAQDMaXti</string>
+
 </resources>

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -21,6 +22,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.squareup.picasso.Picasso;
 import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
@@ -118,6 +120,12 @@ public class ChatActivity extends AppCompatActivity {
             binding.cardView.setPaddingRelative(0, 0, 0, 30);
             emojiPopup.show();
         });
+        binding.call.setOnClickListener(v -> {
+            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            Log.e("tokenaaa",refreshedToken);
+            utils.Intent(Call.class);
+        });
+
     }
 
     void GetIntentData() {

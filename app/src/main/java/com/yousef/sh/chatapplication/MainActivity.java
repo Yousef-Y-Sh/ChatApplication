@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -23,6 +24,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
 import com.yousef.sh.chatapplication.Utils.Utils;
 import com.yousef.sh.chatapplication.adapter.ListFriendAdpater;
@@ -31,6 +38,7 @@ import com.yousef.sh.chatapplication.moudle.Chat;
 import com.yousef.sh.chatapplication.moudle.UserM;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -55,8 +63,27 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
         Picasso.get().load(user.getPhotoUrl()).into(binding.imguser);
+
+
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Dexter.withContext(this)
+                .withPermissions(
+                        Manifest.permission.INTERNET,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.RECORD_AUDIO,
+                        Manifest.permission.ACCESS_NETWORK_STATE,
+                        Manifest.permission.MODIFY_AUDIO_SETTINGS
+                ).withListener(new MultiplePermissionsListener() {
+            @Override public void onPermissionsChecked(MultiplePermissionsReport report) {/* ... */}
+            @Override public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {/* ... */}
+        }).check();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
