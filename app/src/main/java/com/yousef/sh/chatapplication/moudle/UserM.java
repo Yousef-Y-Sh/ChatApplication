@@ -13,6 +13,16 @@ public class UserM implements Parcelable {
     String imgUri;
     String Token;
 
+    public UserM(String id, String name, String email, String phone, String password, String imgUri, String token) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.imgUri = imgUri;
+        Token = token;
+    }
+
     public UserM(String id, String name, String email, String phone, String password, String imgUri) {
         this.id = id;
         this.name = name;

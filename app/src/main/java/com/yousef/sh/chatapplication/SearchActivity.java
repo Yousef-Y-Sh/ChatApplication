@@ -32,6 +32,7 @@ public class SearchActivity extends AppCompatActivity {
     SuggestedFriendAdapter adapter;
     Utils utils;
     String a = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,14 +124,16 @@ public class SearchActivity extends AppCompatActivity {
                 .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                            UserM new_User = dataSnapshot.getValue(UserM.class);
-                            if (!new_User.getEmail().equals(auth.getCurrentUser().getEmail()))
-                                list.add(new_User);
+                        if (snapshot.exists()) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                UserM new_User = dataSnapshot.getValue(UserM.class);
+                                if (!new_User.getEmail().equals(auth.getCurrentUser().getEmail()))
+                                    list.add(new_User);
+                            }
+                            adapter = new SuggestedFriendAdapter(SearchActivity.this, list);
+                            bind.recycle.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
+                            bind.recycle.setAdapter(adapter);
                         }
-                        adapter = new SuggestedFriendAdapter(SearchActivity.this, list);
-                        bind.recycle.setLayoutManager(new LinearLayoutManager(SearchActivity.this));
-                        bind.recycle.setAdapter(adapter);
                     }
 
                     @Override

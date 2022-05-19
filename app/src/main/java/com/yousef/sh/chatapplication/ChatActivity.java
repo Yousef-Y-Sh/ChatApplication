@@ -2,9 +2,9 @@ package com.yousef.sh.chatapplication;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,32 +12,40 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.storage.internal.Util;
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
-import com.vanniktech.emoji.EmojiManager;
 import com.vanniktech.emoji.EmojiPopup;
-import com.vanniktech.emoji.EmojiProvider;
-import com.vanniktech.emoji.emoji.EmojiCategory;
+import com.yousef.sh.chatapplication.API.ApiClient;
+import com.yousef.sh.chatapplication.API.ApiService;
 import com.yousef.sh.chatapplication.Utils.Utils;
 import com.yousef.sh.chatapplication.adapter.ChatAdapter;
 import com.yousef.sh.chatapplication.databinding.ActivityChatBinding;
 import com.yousef.sh.chatapplication.moudle.Chat;
 import com.yousef.sh.chatapplication.moudle.UserM;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChatActivity extends AppCompatActivity {
     ActivityChatBinding binding;
@@ -50,6 +58,17 @@ public class ChatActivity extends AppCompatActivity {
     ChatAdapter adapter;
     UserM friend;
     EmojiPopup emojiPopup;
+
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    String msg;
+    static String appId = "2a4abbb30eb84e16b72143fabd76cd81";
+    static String appCertificate = "df2bad5d676a4c52bac34e32e1f752bd";
+    static String channelName = "asdvfdfg";
+    static String userAccount = "2082341273";
+    static int uid = 52456205;
+    static int expirationTimeInSeconds = 3600;
+    String RtcToken = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +85,10 @@ public class ChatActivity extends AppCompatActivity {
         friend = getIntent().getParcelableExtra(utils.FriendObject);
         emojiPopup = EmojiPopup.Builder.fromRootView(binding.contaier).build(binding.txtMsg);
 
+        pref = getApplicationContext().getSharedPreferences("DEVICE_TOKEN", MODE_PRIVATE);
+        editor = pref.edit();
+
+
         ClickMethods();
         GetIntentData();
 
@@ -77,9 +100,9 @@ public class ChatActivity extends AppCompatActivity {
             finish();
         });
         binding.send.setOnClickListener(view -> {
-            String msg = binding.txtMsg.getText().toString().trim();
+            msg = binding.txtMsg.getText().toString().trim();
             if (TextUtils.isEmpty(msg)) {
-                utils.Toast("no message enterd..");
+
             } else {
                 String datetime = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault()).format(new Date());
                 binding.txtMsg.setText("");
@@ -92,8 +115,10 @@ public class ChatActivity extends AppCompatActivity {
                 FirebaseDatabase.getInstance().getReference("chats")
                         .child(friend.getId())
                         .child(user.getUid()).push().setValue(chat);
+
             }
         });
+
         binding.txtMsg.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -121,9 +146,40 @@ public class ChatActivity extends AppCompatActivity {
             emojiPopup.show();
         });
         binding.call.setOnClickListener(v -> {
-            String refreshedToken = FirebaseInstanceId.getInstance().getToken();
-            Log.e("tokenaaa",refreshedToken);
-            utils.Intent(Call.class);
+            RtcTokenBuilder token = new RtcTokenBuilder();
+            int timestamp = (int) (System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
+            RtcToken = token.buildTokenWithUid(appId, appCertificate,
+                    channelName, uid, RtcTokenBuilder.Role.Role_Publisher, timestamp);
+            Log.e("SSSSSSS", RtcToken);
+
+            try {
+                JSONObject body = new JSONObject();
+                JSONObject data = new JSONObject();
+                JSONArray registration_ids = new JSONArray();
+
+                registration_ids.put(friend.getToken());
+
+                data.put(Utils.KEY_FIRST_NAME, user.getDisplayName());
+                data.put(Utils.KEY_EMAIL, user.getEmail());
+                data.put(Utils.KEY_IMG, user.getPhotoUrl() + "");
+                data.put(Utils.KEY_ID, user.getUid() + "");
+                data.put("friendTOKEN", friend.getToken());
+                data.put("MyTOKEN", pref.getString("Token", null));
+                data.put(Utils.REMOTE_MSG_TYPE, Utils.REMOTE_MSG_INVITATION);
+                data.put(Utils.REMOTE_MSG_METTING_TYPE, Utils.METTING_TYPE_VOICE);
+                data.put(Utils.ChannelName, channelName);
+                data.put(Utils.AppId, appId);
+                data.put(Utils.Uid, uid);
+                data.put(Utils.RtcToken, RtcToken);
+
+                body.put(Utils.REMOTE_MSG_REGISTRATION_IDS, registration_ids);
+                body.put(Utils.REMOTE_MSG_DATA, data);
+
+                Log.e("aaaaaa", body.toString());
+                sendRemoteMessage(body.toString(), utils.REMOTE_MSG_INVITATION);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         });
 
     }
@@ -160,5 +216,32 @@ public class ChatActivity extends AppCompatActivity {
                     });
         }
     }
+
+    void sendRemoteMessage(String messageBody, String type) {
+
+        Call<String> call = ApiClient.getClient().create(ApiService.class)
+                .sendRemoteMessage(Utils.getRemoteMessageHeader(), messageBody);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful()) {
+                    if (type.equals(Utils.REMOTE_MSG_INVITATION)) {
+                        Intent intent = new Intent(getApplicationContext(), OutGoingCallActivity.class);
+                        intent.putExtra("FRIENDOBJECT", friend);
+                        startActivity(intent);
+                    }
+                } else {
+                    utils.Toast("failer");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                utils.Toast(t.getMessage());
+                finish();
+            }
+        });
+    }
+
 
 }

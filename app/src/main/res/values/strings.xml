@@ -2,7 +2,7 @@
     <string name="app_name">ChatApplication</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="agora_app_id">c2bdfcce7abc4c91b4ff4a90e79ef573</string>
-    <string name="agora_access_token">006c2bdfcce7abc4c91b4ff4a90e79ef573IAAlKwZn5EBjj6BDgTcg4eqT4G+EOJS+YnLGAYdIgSy9Uj37XygAAAAAEAD9FOMn1ml7YgEAAQDMaXti</string>
+    <string name="agora_app_id">2a4abbb30eb84e16b72143fabd76cd81</string>
+    <string name="agora_access_token">0062a4abbb30eb84e16b72143fabd76cd81IADkw4hUWNuD/9koj41ElM71M6z4wxiW00VNb5r02U3mKD37XygAAAAAEAA5DUG60laBYgEAAQDQVoFi</string>
 
 </resources>

@@ -1,22 +1,39 @@
 package com.yousef.sh.chatapplication;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.yousef.sh.chatapplication.Utils.Utils;
 import com.yousef.sh.chatapplication.databinding.ActivityMainBinding;
 import com.yousef.sh.chatapplication.databinding.ActivitySignInBinding;
+import com.yousef.sh.chatapplication.moudle.UserM;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class SignInActivity extends AppCompatActivity {
 
     ActivitySignInBinding binding;
     Utils utils;
     FirebaseAuth auth;
+    private FirebaseUser user;
+    DatabaseReference mDatabase;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +41,11 @@ public class SignInActivity extends AppCompatActivity {
         binding = ActivitySignInBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         auth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        pref = getApplicationContext().getSharedPreferences("DEVICE_TOKEN", MODE_PRIVATE);
+        editor = pref.edit();
+
         utils = new Utils(this);
         onClickMethods();
     }
@@ -35,6 +57,7 @@ public class SignInActivity extends AppCompatActivity {
 
         binding.loginBtn.setOnClickListener(view -> {
             if (Verification()) {
+
                 ActiveEditTexts(true);
                 SignInEmailAndPassword();
             }
@@ -95,6 +118,33 @@ public class SignInActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             utils.Intent(MainActivity.class);
+            GetToken();
+        }
+    }
+
+    void GetToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (task.isSuccessful()) {
+                    String Token = task.getResult().getToken();
+                    editor.putString("Token", Token);
+                    editor.commit();
+                    Log.e("Token", Token);
+                    updateToken(Token);
+                } else {
+                    utils.Toast(task.getException().getMessage());
+                }
+            }
+        });
+    }
+
+    void updateToken(String Token) {
+        user = auth.getCurrentUser();
+        if (user != null) {
+            HashMap<String, Object> map = new HashMap();
+            map.put("token", Token);
+            mDatabase.child("users").child(user.getUid()).updateChildren(map);
         }
     }
 }

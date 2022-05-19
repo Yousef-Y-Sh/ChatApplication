@@ -3,10 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/drawable/background_out_coming_call.xml" value="0.158" />
+        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/drawable/call_recycle_shape.xml" value="0.158" />
         <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/drawable/ic_baseline_call_24.xml" value="0.2075" />
-        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/activity_call.xml" value="0.2" />
+        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/activity_call.xml" value="0.12" />
         <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/activity_chat.xml" value="0.2" />
+        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/activity_jitscall.xml" value="0.2" />
+        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/activity_out_going_call.xml" value="0.2" />
+        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/activity_sign_up.xml" value="0.2" />
+        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/activity_splash_screen.xml" value="0.22" />
         <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/fragment_chat.xml" value="0.2" />
+        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/incoming_layout.xml" value="0.2" />
+        <entry key="..\:/Users/Yousef Y Shaheen/AndroidStudioProjects/ChatApplication/app/src/main/res/layout/ringing_layout.xml" value="0.22" />
       </map>
     </option>
   </component>

@@ -1,10 +1,15 @@
 package com.yousef.sh.chatapplication.adapter;
 
 import android.app.Activity;
-import android.util.Log;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,11 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
+import com.yousef.sh.chatapplication.Call;
 import com.yousef.sh.chatapplication.R;
 import com.yousef.sh.chatapplication.Utils.Utils;
 import com.yousef.sh.chatapplication.moudle.Chat;
@@ -36,6 +39,8 @@ public class ChatAdapter extends RecyclerView.Adapter {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     UserM friend;
     Utils utils = new Utils();
+
+
 
     public ChatAdapter(Activity activity, ArrayList<Chat> list, UserM friend) {
         this.activity = activity;
@@ -66,12 +71,21 @@ public class ChatAdapter extends RecyclerView.Adapter {
             RightViewHolder right = (RightViewHolder) holder;
             right.tvRight.setText(list.get(position).getMsg() + "");
             right.tvdateRight.setText(list.get(position).getDate() + "");
+//            int lastPosition = list.size() - 1;
+//            if (list.get(lastPosition).getMsg().equals("aaa")) {
+//                ShowDialog();
+//            }
         } else {
             LeftViewHolder left = (LeftViewHolder) holder;
             left.tv_left.setText(list.get(position).getMsg() + "");
             left.tvDate.setText(list.get(position).getDate() + "");
             Picasso.get().load(friend.getImgUri()).into(left.imgFriend);
+//            int lastPosition = list.size() - 1;
+//            if (list.get(lastPosition).getMsg().equals("aaa")) {
+//                ShowDialog();
+//            }
         }
+
     }
 
     @Override
@@ -110,5 +124,26 @@ public class ChatAdapter extends RecyclerView.Adapter {
             imgFriend = (CircleImageView) itemView.findViewById(R.id.imgFriend);
 
         }
+    }
+
+    void ShowDialog() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+        builder.setCancelable(false);
+        View itemView = LayoutInflater.from(activity).inflate(R.layout.incoming_layout, null);
+        builder.setView(itemView);
+        TextView tvName = (TextView) itemView.findViewById(R.id.tv_name);
+        ImageView accept = (ImageView) itemView.findViewById(R.id.accept);
+        ImageView denied = (ImageView) itemView.findViewById(R.id.denied);
+        tvName.setText("مكالمة واردة من " + friend.getName());
+        final AlertDialog alertDialog = builder.create();
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        denied.setOnClickListener(v -> {
+            alertDialog.dismiss();
+        });
+        accept.setOnClickListener(v -> {
+            Intent intent = new Intent(activity, Call.class);
+            activity.startActivity(intent);
+        });
+        alertDialog.show();
     }
 }

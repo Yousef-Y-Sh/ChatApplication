@@ -1,6 +1,7 @@
 package com.yousef.sh.chatapplication;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -23,6 +24,8 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.annotations.NotNull;
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -44,6 +47,11 @@ public class SignupActivity extends AppCompatActivity {
     StorageReference storageReference;
     DatabaseReference mDatabase;
 
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
+    String Token = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,8 +62,14 @@ public class SignupActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        getToken();
+        pref = getApplicationContext().getSharedPreferences("DEVICE_TOKEN", MODE_PRIVATE);
+        editor = pref.edit();
 
-
+        if (Token != null) {
+            editor.putString("Token", Token);
+            editor.commit();
+        }
         onCLicksMethods();
     }
 
@@ -183,7 +197,7 @@ public class SignupActivity extends AppCompatActivity {
 
     void uploadInformationToRealTime() {
         user = auth.getCurrentUser();
-        UserM userM = new UserM(user.getUid(), user.getDisplayName(), user.getEmail(), phone, password, user.getPhotoUrl() + "");
+        UserM userM = new UserM(user.getUid(), user.getDisplayName(), user.getEmail(), phone, password, user.getPhotoUrl() + "", Token);
         mDatabase.child("users").child(user.getUid()).setValue(userM)
                 .addOnSuccessListener(unused -> {
                     Log.e("111111 : upload to Real", " Upload information to realtime is successfully");
@@ -240,5 +254,18 @@ public class SignupActivity extends AppCompatActivity {
                 Log.e("111111 : selected image", selectedImage.toString());
             }
         }
+    }
+
+    void getToken() {
+        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+            @Override
+            public void onComplete(@NonNull Task<InstanceIdResult> task) {
+                if (task.isSuccessful()) {
+                    Token = task.getResult().getToken();
+                } else {
+                    utils.Toast(task.getException().getMessage());
+                }
+            }
+        });
     }
 }

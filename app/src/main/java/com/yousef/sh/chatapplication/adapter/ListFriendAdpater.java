@@ -42,7 +42,8 @@ public class ListFriendAdpater extends RecyclerView.Adapter<ListFriendAdpater.My
     FirebaseAuth auth = FirebaseAuth.getInstance();
     FirebaseUser user = auth.getCurrentUser();
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
     public ListFriendAdpater(Activity activity, ArrayList<UserM> arrayList) {
         this.activity = activity;
         this.arrayList = arrayList;
@@ -51,16 +52,18 @@ public class ListFriendAdpater extends RecyclerView.Adapter<ListFriendAdpater.My
     @NonNull
     @Override
     public MyViewHoder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        pref = activity.getSharedPreferences("DEVICE_TOKEN", activity.MODE_PRIVATE);
+        editor = pref.edit();
         View v = LayoutInflater.from(activity).inflate(R.layout.friend_item, parent, false);
         return new MyViewHoder(v);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHoder holder, int position) {
+        UserM userm = arrayList.get(position);
         Picasso.get().load(arrayList.get(position).getImgUri()).into(holder.imageView3);
         holder.tvname.setText(arrayList.get(position).getName());
         holder.itemView.setOnClickListener(view -> {
-            UserM user1 = arrayList.get(position);
             Intent intent = new Intent(activity, ChatActivity.class);
             intent.putExtra(utils.FriendObject, arrayList.get(position));
             activity.startActivity(intent);
