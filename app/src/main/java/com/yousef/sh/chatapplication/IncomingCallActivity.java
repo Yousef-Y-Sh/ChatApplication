@@ -42,7 +42,7 @@ public class IncomingCallActivity extends AppCompatActivity {
 
     String ChannelName = "";
     String AppId = "";
-    String Uid = "";
+    String sUid = "";
     String RtcToken = "";
 
     SharedPreferences pref;
@@ -63,7 +63,8 @@ public class IncomingCallActivity extends AppCompatActivity {
 
         ChannelName = getIntent().getStringExtra(Utils.ChannelName);
         AppId = getIntent().getStringExtra(Utils.AppId);
-        Uid = getIntent().getStringExtra(Utils.Uid);
+        sUid = getIntent().getStringExtra(Utils.Uid);
+        Log.e("SSSSSSS",sUid);
         RtcToken = getIntent().getStringExtra(Utils.RtcToken);
 
 
@@ -156,7 +157,7 @@ public class IncomingCallActivity extends AppCompatActivity {
 
                 intent.putExtra(Utils.ChannelName, ChannelName);
                 intent.putExtra(Utils.AppId, AppId);
-                intent.putExtra(Utils.Uid, Uid);
+                intent.putExtra(Utils.Uid, sUid);
                 intent.putExtra(Utils.RtcToken, RtcToken);
 
                 startActivity(intent);
