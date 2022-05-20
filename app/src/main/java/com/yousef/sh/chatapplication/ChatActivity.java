@@ -146,12 +146,6 @@ public class ChatActivity extends AppCompatActivity {
             emojiPopup.show();
         });
         binding.call.setOnClickListener(v -> {
-            RtcTokenBuilder token = new RtcTokenBuilder();
-            int timestamp = (int) (System.currentTimeMillis() / 1000 + expirationTimeInSeconds);
-            RtcToken = token.buildTokenWithUid(appId, appCertificate,
-                    channelName, uid, RtcTokenBuilder.Role.Role_Publisher, timestamp);
-            Log.e("SSSSSSS", RtcToken);
-
             try {
                 JSONObject body = new JSONObject();
                 JSONObject data = new JSONObject();
@@ -168,9 +162,6 @@ public class ChatActivity extends AppCompatActivity {
                 data.put(Utils.REMOTE_MSG_TYPE, Utils.REMOTE_MSG_INVITATION);
                 data.put(Utils.REMOTE_MSG_METTING_TYPE, Utils.METTING_TYPE_VOICE);
                 data.put(Utils.ChannelName, channelName);
-                data.put(Utils.AppId, appId);
-                data.put(Utils.Uid, uid);
-                data.put(Utils.RtcToken, RtcToken);
 
                 body.put(Utils.REMOTE_MSG_REGISTRATION_IDS, registration_ids);
                 body.put(Utils.REMOTE_MSG_DATA, data);

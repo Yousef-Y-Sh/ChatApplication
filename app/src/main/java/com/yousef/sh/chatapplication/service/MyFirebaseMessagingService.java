@@ -1,38 +1,19 @@
 package com.yousef.sh.chatapplication.service;
 
-import android.app.Activity;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
-import com.yousef.sh.chatapplication.Call;
-import com.yousef.sh.chatapplication.ChatActivity;
 import com.yousef.sh.chatapplication.IncomingCallActivity;
-import com.yousef.sh.chatapplication.R;
-import com.yousef.sh.chatapplication.SignupActivity;
 import com.yousef.sh.chatapplication.SplashScreenActivity;
-import com.yousef.sh.chatapplication.Utils.OnRecycleView;
+import com.yousef.sh.chatapplication.Utils.MessageNotification;
 import com.yousef.sh.chatapplication.Utils.Utils;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import okhttp3.internal.Util;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -61,12 +42,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         image = remoteMessage.getData().get(Utils.KEY_IMG);
         type = remoteMessage.getData().get(Utils.REMOTE_MSG_TYPE);
         mettingType = remoteMessage.getData().get(Utils.REMOTE_MSG_METTING_TYPE);
-
         ChannelName = remoteMessage.getData().get(Utils.ChannelName);
         AppId = remoteMessage.getData().get(Utils.AppId);
         Uid = remoteMessage.getData().get(Utils.Uid);
         RtcToken = remoteMessage.getData().get(Utils.RtcToken);
 
+        PushNotification(MyFirebaseMessagingService.this, remoteMessage);
         if (type != null) {
             if (type.equals(Utils.REMOTE_MSG_INVITATION)) {
                 if (mettingType.equals(Utils.METTING_TYPE_VOICE)) {
@@ -105,4 +86,10 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 
+    private void PushNotification(Context mContext, RemoteMessage remote) {
+        if (remote.getNotification().getTitle() != null && remote.getNotification().getBody() != null) {
+            Intent intent = new Intent(mContext, SplashScreenActivity.class);
+            MessageNotification.PushNotification(mContext, remote.getNotification().getTitle(), remote.getNotification().getBody(), intent);
+        }
+    }
 }
