@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +37,7 @@ public class ChoiceImageStory extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
-        utils.PickImage(777);
+        utils._PickImage(777);
     }
 
     void upload_Image(Uri uri) {
@@ -46,7 +47,7 @@ public class ChoiceImageStory extends AppCompatActivity {
                 .addOnSuccessListener(taskSnapshot -> {
                     GetImageUriAfterUpload();
                 }).addOnFailureListener(e -> {
-            utils.Toast(e.getMessage());
+            utils._Toast(e.getMessage());
         });
     }
 
@@ -54,7 +55,7 @@ public class ChoiceImageStory extends AppCompatActivity {
         storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
             CreateRealTimeStoryDB(uri);
         }).addOnFailureListener(e -> {
-            utils.Toast(e.getMessage());
+            utils._Toast(e.getMessage());
         });
 
     }
@@ -66,7 +67,7 @@ public class ChoiceImageStory extends AppCompatActivity {
                 .setValue(story).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                utils.Toast("succedd");
+                utils._Toast("succedd");
             }
         });
     }
@@ -77,10 +78,10 @@ public class ChoiceImageStory extends AppCompatActivity {
         if (resultCode == RESULT_OK && data != null) {
             if (requestCode == 777) {
                 upload_Image(data.getData());
-                utils.Intent(MainActivity.class);
+                utils._Intent(MainActivity.class);
             }
         } else {
-            utils.Intent(MainActivity.class);
+            utils._Intent(MainActivity.class);
         }
     }
 }

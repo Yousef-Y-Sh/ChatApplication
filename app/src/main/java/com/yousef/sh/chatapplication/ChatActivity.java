@@ -62,13 +62,6 @@ public class ChatActivity extends AppCompatActivity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     String msg;
-    static String appId = "2a4abbb30eb84e16b72143fabd76cd81";
-    static String appCertificate = "df2bad5d676a4c52bac34e32e1f752bd";
-    static String channelName = "asdvfdfg";
-    static String userAccount = "2082341273";
-    static int uid = 52456205;
-    static int expirationTimeInSeconds = 3600;
-    String RtcToken = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +89,12 @@ public class ChatActivity extends AppCompatActivity {
 
     void ClickMethods() {
         binding.back.setOnClickListener(view -> {
-            utils.Intent(MainActivity.class);
+            utils._Intent(MainActivity.class);
             finish();
         });
         binding.send.setOnClickListener(view -> {
-            msg = binding.txtMsg.getText().toString().trim();
+
+            msg = utils._getText(binding.txtMsg);
             if (TextUtils.isEmpty(msg)) {
 
             } else {
@@ -161,7 +155,6 @@ public class ChatActivity extends AppCompatActivity {
                 data.put("MyTOKEN", pref.getString("Token", null));
                 data.put(Utils.REMOTE_MSG_TYPE, Utils.REMOTE_MSG_INVITATION);
                 data.put(Utils.REMOTE_MSG_METTING_TYPE, Utils.METTING_TYPE_VOICE);
-                data.put(Utils.ChannelName, channelName);
 
                 body.put(Utils.REMOTE_MSG_REGISTRATION_IDS, registration_ids);
                 body.put(Utils.REMOTE_MSG_DATA, data);
@@ -202,7 +195,7 @@ public class ChatActivity extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
-                            utils.Toast(error.getMessage());
+                            utils._Toast(error.getMessage());
                         }
                     });
         }
@@ -222,13 +215,13 @@ public class ChatActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 } else {
-                    utils.Toast("failer");
+                    utils._Toast("failer");
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                utils.Toast(t.getMessage());
+                utils._Toast(t.getMessage());
                 finish();
             }
         });

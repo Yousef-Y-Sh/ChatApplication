@@ -27,7 +27,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                utils.IntentClearTask(SignInActivity.class);
+                utils._IntentClearTask(SignInActivity.class);
             }
         }, 2000);
     }

@@ -2,7 +2,12 @@ package com.yousef.sh.chatapplication.Utils;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import org.apache.commons.codec.binary.Base64;
 
@@ -50,6 +55,56 @@ public class Utils {
     public static final String RtcToken = "RtcToken";
 
 
+    public Utils(Activity activity) {
+        this.activity = activity;
+    }
+
+    public Utils() {
+    }
+
+    public void _Intent(Class aClass) {
+        Intent intent = new Intent(activity, aClass);
+        activity.startActivity(intent);
+    }
+
+    public void _IntentClearTask(Class aClass) {
+        Intent intent = new Intent(activity, aClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+
+    public void _PickImage(int reuestCode) {
+        Intent i = new Intent();
+        i.setType("image/*");
+        i.setAction(Intent.ACTION_GET_CONTENT);
+        activity.startActivityForResult(i, reuestCode);
+    }
+
+    public void _Toast(String message) {
+        Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
+    }
+
+    public String _getText(EditText editText) {
+        return editText.getText().toString();
+    }
+
+    public String _getText(TextView textView) {
+        return textView.getText().toString();
+    }
+
+    public void _showSnackBar(String message, String action, View.OnClickListener listener) {
+        Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackbar.setAction(action, listener);
+        snackbar.show();
+    }
+
+    public void _showSnackBar(String message) {
+        Snackbar snackbar = Snackbar.make(activity.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG);
+        snackbar.show();
+    }
+
     public static HashMap<String, String> getRemoteMessageHeader() {
         HashMap<String, String> headers = new HashMap<>();
         headers.put(
@@ -61,36 +116,6 @@ public class Utils {
                 "application/json"
         );
         return headers;
-    }
-
-    public Utils(Activity activity) {
-        this.activity = activity;
-    }
-
-    public void Intent(Class aClass) {
-        Intent intent = new Intent(activity, aClass);
-        activity.startActivity(intent);
-    }
-
-    public void IntentClearTask(Class aClass) {
-        Intent intent = new Intent(activity, aClass);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        activity.startActivity(intent);
-        activity.finish();
-    }
-
-    public Utils() {
-    }
-
-    public void PickImage(int reuestCode) {
-        Intent i = new Intent();
-        i.setType("image/*");
-        i.setAction(Intent.ACTION_GET_CONTENT);
-        activity.startActivityForResult(i, reuestCode);
-    }
-
-    public void Toast(String message) {
-        Toast.makeText(activity, message, Toast.LENGTH_LONG).show();
     }
 
 }

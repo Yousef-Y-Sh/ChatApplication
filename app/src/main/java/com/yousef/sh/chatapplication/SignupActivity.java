@@ -75,10 +75,10 @@ public class SignupActivity extends AppCompatActivity {
 
     void onCLicksMethods() {
         binding.image.setOnClickListener(view -> {
-            utils.PickImage(888);
+            utils._PickImage(888);
         });
         binding.tv2.setOnClickListener(view -> {
-            utils.Intent(SignInActivity.class);
+            utils._Intent(SignInActivity.class);
         });
         binding.SignupBtn.setOnClickListener(view -> {
             if (VerificationData()) {
@@ -131,7 +131,7 @@ public class SignupActivity extends AppCompatActivity {
         }
 
         if (selectedImage == null) {
-            utils.Toast("Please select a picture");
+            utils._Toast("Please select a picture");
         } else {
             arr[4] = true;
         }
@@ -149,7 +149,7 @@ public class SignupActivity extends AppCompatActivity {
                 upload_Image();
             }
         }).addOnFailureListener(e -> {
-            utils.Toast(e.getMessage());
+            utils._Toast(e.getMessage());
             ActiveProgressAndEditTexts(false);
         });
     }
@@ -162,7 +162,7 @@ public class SignupActivity extends AppCompatActivity {
                     Log.e("111111 : Upload Image", "upload image to firebase storage successfully");
                     GetImageUriAfterUpload();
                 }).addOnFailureListener(e -> {
-            utils.Toast(e.getMessage());
+            utils._Toast(e.getMessage());
             ActiveProgressAndEditTexts(false);
         });
     }
@@ -173,7 +173,7 @@ public class SignupActivity extends AppCompatActivity {
             Log.e("111111 : Get url image", "Get Url for image is successfully");
             createUserInformation();
         }).addOnFailureListener(e -> {
-            utils.Toast(e.getMessage());
+            utils._Toast(e.getMessage());
             ActiveProgressAndEditTexts(false);
         });
     }
@@ -189,7 +189,7 @@ public class SignupActivity extends AppCompatActivity {
                 Log.e("111111 : create user", " create and update informatino user is successfully");
                 uploadInformationToRealTime();
             }).addOnFailureListener(e -> {
-                utils.Toast(e.getMessage());
+                utils._Toast(e.getMessage());
                 ActiveProgressAndEditTexts(false);
             });
         }
@@ -203,7 +203,7 @@ public class SignupActivity extends AppCompatActivity {
                     Log.e("111111 : upload to Real", " Upload information to realtime is successfully");
                     SendVerificationEmail();
                 }).addOnFailureListener(e -> {
-            utils.Toast(e.getMessage());
+            utils._Toast(e.getMessage());
             ActiveProgressAndEditTexts(false);
         });
     }
@@ -212,9 +212,9 @@ public class SignupActivity extends AppCompatActivity {
         user = auth.getCurrentUser();
         user.sendEmailVerification()
                 .addOnSuccessListener(unused -> {
-                    utils.Intent(VerificationActivity.class);
+                    utils._Intent(VerificationActivity.class);
                 }).addOnFailureListener(e -> {
-            utils.Toast(e.getMessage());
+            utils._Toast(e.getMessage());
             ActiveProgressAndEditTexts(false);
         });
     }
@@ -263,7 +263,7 @@ public class SignupActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     Token = task.getResult().getToken();
                 } else {
-                    utils.Toast(task.getException().getMessage());
+                    utils._Toast(task.getException().getMessage());
                 }
             }
         });

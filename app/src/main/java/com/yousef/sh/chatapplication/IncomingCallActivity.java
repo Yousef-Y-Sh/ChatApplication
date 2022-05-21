@@ -64,15 +64,12 @@ public class IncomingCallActivity extends AppCompatActivity {
         ChannelName = getIntent().getStringExtra(Utils.ChannelName);
         AppId = getIntent().getStringExtra(Utils.AppId);
         sUid = getIntent().getStringExtra(Utils.Uid);
-        Log.e("SSSSSSS",sUid);
+        Log.e("SSSSSSS", sUid);
         RtcToken = getIntent().getStringExtra(Utils.RtcToken);
 
 
         String mytoken = getIntent().getStringExtra("MyTOKEN");
         String friendToken = getIntent().getStringExtra("friendTOKEN");
-
-        Log.e("111111111my", mytoken + "");
-        Log.e("111111111friend", friendToken + "");
 
         mettingType = getIntent().getStringExtra("mettingType");
         binding.tvName.setText(Html.fromHtml("Incoming call from " + "<b>" + name + "<b>"));
@@ -90,7 +87,7 @@ public class IncomingCallActivity extends AppCompatActivity {
 
                 body.put(Utils.REMOTE_MSG_REGISTRATION_IDS, registration_ids);
                 body.put(Utils.REMOTE_MSG_DATA, data);
-                Log.e("111111111Body", body.toString());
+
                 sendRemoteMessage(body.toString(), utils.REMOTE_MSG_CANCLE);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -109,7 +106,6 @@ public class IncomingCallActivity extends AppCompatActivity {
 
                 body.put(Utils.REMOTE_MSG_REGISTRATION_IDS, registration_ids);
                 body.put(Utils.REMOTE_MSG_DATA, data);
-                Log.e("111111111Body", body.toString());
                 sendRemoteMessage(body.toString(), utils.REMOTE_MSG_ACCEPT);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -129,17 +125,17 @@ public class IncomingCallActivity extends AppCompatActivity {
                         finish();
                     }
                     if (type.equals(Utils.REMOTE_MSG_ACCEPT)) {
-                        utils.IntentClearTask(com.yousef.sh.chatapplication.Call.class);
+                        utils._IntentClearTask(com.yousef.sh.chatapplication.Call.class);
                     }
                 } else {
-                    utils.Toast("error we are fixed");
+                    utils._Toast("error we are fixed");
                     finish();
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                utils.Toast(t.getMessage());
+                utils._Toast(t.getMessage());
                 finish();
             }
         });
